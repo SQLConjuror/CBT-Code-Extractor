@@ -1,16 +1,18 @@
 from flask import render_template, request, flash, jsonify
 from cbt_code_extractor import app, cnx
+import json
 
 
 @app.route('/')
 def home():
-    # cursor = cnx.cursor()
-    cursor = cnx.cursor(buffered=True)
-    query = cursor.execute("select * from testdb;")
-    # cursor.close()
-    # cnx.close()
-    print(query)
-    return jsonify(query)
+    cursor = cnx.cursor()
+    query = "SELECT * FROM testdb WHERE id=1"
+    cursor.execute(query)
+    for (item) in cursor:
+        print("id: '" + str(item[0]) + "', code: '" + str(item[1]) + "'")
+    cursor.close()
+    cnx.close()
+    return jsonify(item)
 
 
 @app.route('/index')
