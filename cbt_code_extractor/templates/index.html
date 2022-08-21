@@ -2,15 +2,14 @@
 {% block sub_content %}
 
 <div class="container">
-    <form method="POST">
+    <form action="{{ url_for('index') }}" method="POST">
         <div class="form-group">
-            <label for=" name">Check CBT Code Status</label>
-            <input class="form-control" type="text" id="name" placeholder="Enter CBT Codes">
+            <label for="name">Check CBT Code Status</label>
+            <input class="form-control", name="cbt_code" type="text" id="name" placeholder="Enter CBT Codes">
             <small class="form-text text-muted">You may enter multiple cbt codes separated by commas
-                (e.g. 8U3A5JUK6DA7,8U3A5C6HYP2X,8U3A5CBFAKKB)</small>
+                (e.g. 8U3A5JUK6DA7,8U3A5C6HYP2X,8U3A5CBFAKKB)</small> <br>
+            <input class="btn btn-primary" type="submit" value="Check">
         </div>
-
     </form>
-    <button class="btn btn-primary" type="button">Check</button>
 </div>
 {% endblock %}
