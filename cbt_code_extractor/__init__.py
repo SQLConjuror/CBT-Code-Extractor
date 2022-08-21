@@ -6,8 +6,6 @@ import mysql.connector
 app = Flask(__name__)
 Bootstrap(app)
 
-# cnx = mysql.connector.connect(user='root', password='root',
-#                               host='127.0.0.1', database='testdb')
 _config = {
     'user': 'root',
     'password': 'root',
