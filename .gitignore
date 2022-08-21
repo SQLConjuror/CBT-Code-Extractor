@@ -1,4 +1,3 @@
 venv/
 __pycache__
 .idea
-cbt_code_extractor/practice.py
