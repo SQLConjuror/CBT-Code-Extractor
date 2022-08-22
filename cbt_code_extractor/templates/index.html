@@ -9,6 +9,16 @@
             <small class="form-text text-muted">You may enter multiple cbt codes separated by commas
                 (e.g. 8U3A5JUK6DA7,8U3A5C6HYP2X,8U3A5CBFAKKB)</small> <br>
             <input class="btn btn-primary" type="submit" value="Check">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                   {% for message in messages %}
+                        <p>{{ message }}</p>
+                   {% endfor %}
+                 {% endif %}
+              {% endwith %}
+        {% if error %}
+            <p><strong>Error</strong>: {{error}}</p>
+        {% endif %}
         </div>
     </form>
 </div>
