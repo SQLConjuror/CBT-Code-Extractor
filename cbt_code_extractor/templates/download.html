@@ -2,28 +2,22 @@
 {% block sub_content %}
 <br>
 <br>
-<div class="container">
-  <table id="data" class="table table-striped">
-    <thead>
-      <tr>
-        <th>Code</th>
-        <th>IntlOpenId</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in result %}
-        <tr>
-          <td>{{ item[0] }}</td>
-          <td>{{ item[1] }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-<div class="container">
-<form action="{{ url_for('download') }}", method="get">
-    <input class="btn btn-primary btn-block" type="submit" value="Download Used CBT Code in csv Format"></input>
-</form>
-</div>
-{% endblock %}
 
+<div class="container">
+  <form action="{{ url_for('download') }}" , method="POST">
+    <input class="btn btn-primary btn-block" name="download" type="submit"
+      value="Download Used CBT Code in csv Format"></input>
+  </form>
+</div>
+
+{% if result1 %}
+
+<div class="container">
+  <h2 class="center-block">Thank You! Your data has been downloaded.</h2>
+  <p>You may find the file at this directory: <strong>/root/flask-app/CBT-Code-Extractor/output</strong></p>
+</div>
+
+{% endif %}
+
+
+{% endblock %}

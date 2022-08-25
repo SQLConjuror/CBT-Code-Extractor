@@ -5,21 +5,47 @@
     <form action="{{ url_for('index') }}" method="POST">
         <div class="form-group">
             <label for="name">Check CBT Code Status</label>
-            <input class="form-control", name="cbt_code" type="text" id="name" placeholder="Enter CBT Codes">
-            <small class="form-text text-muted">You may enter multiple cbt codes separated by commas
-                (e.g. 8U3A5JUK6DA7,8U3A5C6HYP2X,8U3A5CBFAKKB)</small> <br>
+            <input class="form-control" , name="cbt_code" type="text" id="name" placeholder="Enter CBT Code">
+            {% if error %}
+            <p style="color:red ">{{error}}</p>
+            {% endif %}
+            <small class="form-text text-muted">(e.g. 8U3A5JUK6DA7,8U3A5C6HYP2X,8U3A5CBFAKKB)</small>
+            <br>
+            <br>
             <input class="btn btn-primary" type="submit" value="Check">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                   {% for message in messages %}
-                        <p>{{ message }}</p>
-                   {% endfor %}
-                 {% endif %}
-              {% endwith %}
-        {% if error %}
-            <p><strong>Error</strong>: {{error}}</p>
-        {% endif %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="{{ category }}">
+                <p>{{ message }}</p>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
         </div>
     </form>
 </div>
+
+{% if result %}
+<div class="container">
+    <table id="data" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>IntlOpenId</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in result %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
 {% endblock %}

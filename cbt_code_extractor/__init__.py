@@ -8,10 +8,10 @@ app.secret_key = "super secret key"
 Bootstrap(app)
 
 _config = {
-    'user': 'root',
-    'password': 'root',
-    'host': '127.0.0.1',
-    'database': 'testdb',
+    'user': 'smartlink@test-smartlink-data-extraction',
+    'password': 'Supp0rt#12',
+    'host': 'test-smartlink-data-extraction.mysql.database.azure.com',
+    'database': 'nkmanager',
     'raise_on_warnings': True,
     }
 cnx = mysql.connector.connect(**_config)

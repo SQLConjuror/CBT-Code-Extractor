@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, jsonify
+from flask import render_template, request, flash, jsonify, send_file
 from cbt_code_extractor import app, cnx
 import pandas as pd
 
@@ -11,27 +11,37 @@ def home():
 @app.route('/index', methods=['POST'])
 def index():
     if request.method == 'POST':
-        codes = request.form['cbt_code']
-        if codes:
+        Code = str(request.form['cbt_code']).strip()
+        if Code:
             cursor = cnx.cursor()
-            cursor.execute("SELECT * FROM cbt_code where id IN (%s)" % codes)
+            cursor.execute("SELECT * FROM cbtcode where Code IN ('%s')" % Code)
+            # cursor.execute("SELECT * FROM cbtcode WHERE IntlOpenId <> 'NULL'")
             result = cursor.fetchall()
             if result:
-                headers = ['Code', 'IntlOpenId']
-                df = pd.DataFrame(data=result, columns=headers)
-                df.to_csv(r'/home/zubair/Desktop/dashboard/Upwork Ongoing/CBT-Code-Extractor/exported_data.csv',
-                          index=False)
+                return render_template('index.html', result=result)
             else:
-                flash("CBT codes not found in Database!", category='danger')
+                flash("CBT code not found in Database! Please enter a valid CBT code", category="error")
                 return render_template('index.html')
         else:
-            error = 'Please Enter Valid CBT Codes!'
+            error = 'Please enter a valid CBT code'
             return render_template('index.html', error=error)
-        return render_template('download.html', result=result)
+    return render_template('index.html')
 
 
-@app.route('/download')
+@app.route('/download', methods=['GET','POST'])
+
 def download():
-    return render_template('thankyou.html')
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', debug=True)
+    if request.method == 'POST':
+        if request.form['download'] == 'Download Used CBT Code in csv Format':
+            cursor1 = cnx.cursor()
+            cursor1.execute("SELECT * FROM cbtcode WHERE IntlOpenId <> 'NULL'") 
+            result1 = cursor1.fetchall()
+            if result1:
+                headers = ['Code', 'IntlOpenId']
+                df = pd.DataFrame(data=result1, columns=headers)
+                df.to_csv(r'/root/flask-app/CBT-Code-Extractor/output/exported_data.csv',
+                            index=False)
+                path = "/root/flask-app/CBT-Code-Extractor/output/exported_data.csv"
+                return send_file(path, as_attachment=True)
+    return render_template('download.html')
+
